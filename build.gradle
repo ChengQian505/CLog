@@ -1,0 +1,42 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
+//gradlew clean build bintrayUpload -PbintrayUser=chengqian -PbintrayKey=fa90e8a7d75531eb30e090873c7a2ef982060421 -PdryRun=false
+apply plugin: 'com.novoda.bintray-release'//添加
+//项目主页
+def siteUrl = 'https://gitlab.com/chengqian/clog.git'
+publish{
+    repoName = 'cq'//远程仓库名字,不指明，默认是上传到maven
+    userOrg = 'chengqian'//bintray.com的用户名
+    groupId = 'xyz.cq.clog'//jcenter上的路径
+    artifactId = 'clog'//项目名称
+    publishVersion = '1.0.1'//版本号
+    desc = '程前Log和ToastSDK'//描述，不重要
+    website = siteUrl//项目主页
+}
+tasks.withType(Javadoc).all {
+    enabled = false
+}
