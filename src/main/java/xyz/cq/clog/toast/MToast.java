@@ -2,6 +2,7 @@ package xyz.cq.clog.toast;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Looper;
 import android.widget.Toast;
 
 import xyz.cq.clog.CLog;
@@ -17,14 +18,12 @@ public class MToast {
     private Toast toast1;
     private Toast toast2;
 
-    public Context context;
-
     /**
      * 底部短时间Toast
      * @param text 吐司内容
      */
     @SuppressLint("ShowToast")
-    private void show1(String text) {
+    private void show1(Context context,String text) {
         if (toast1 == null) {
             toast1 = Toast.makeText(context, text, Toast.LENGTH_SHORT);
         } else {
@@ -38,7 +37,7 @@ public class MToast {
      * @param text 吐司内容
      */
     @SuppressLint("ShowToast")
-    private void show1long(String text) {
+    private void show1long(Context context,String text) {
         if (toast2 == null) {
             toast2 = Toast.makeText(context, text, Toast.LENGTH_LONG);
         } else {
@@ -48,14 +47,14 @@ public class MToast {
     }
 
 
-    public void show(String text) {
-        show1(text);
-        CLog.log("TOAST").i("SHORT-$text");
+    public void show(Context context,String text) {
+        show1(context,text);
+        CLog.log("TOAST").i("SHORT-"+text);
     }
 
-    public void showLong(String text) {
-        show1long(text);
-        CLog.log("TOAST").i("LONG-$text");
+    public void showLong(Context context,String text) {
+        show1long(context,text);
+        CLog.log("TOAST").i("LONG-"+text);
     }
 
 

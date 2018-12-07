@@ -29,11 +29,11 @@ apply plugin: 'com.novoda.bintray-release'//添加
 //项目主页
 def siteUrl = 'https://gitlab.com/chengqian/clog.git'
 publish{
-    repoName = 'cq'//远程仓库名字,不指明，默认是上传到maven
+    repoName = 'chengqian'//远程仓库名字,不指明，默认是上传到maven
     userOrg = 'chengqian'//bintray.com的用户名
-    groupId = 'xyz.cq.clog'//jcenter上的路径
+    groupId = 'xyz.cq.base'//jcenter上的路径
     artifactId = 'clog'//项目名称
-    publishVersion = '1.0.1'//版本号
+    publishVersion = '1.0.3'//版本号
     desc = '程前Log和ToastSDK'//描述，不重要
     website = siteUrl//项目主页
 }
