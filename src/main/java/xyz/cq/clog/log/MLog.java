@@ -9,7 +9,6 @@ package xyz.cq.clog.log;
  */
 public class MLog extends BaseLog {
     public static boolean isLog=false;
-    public static String BASE_TAG="CLOG";
     private String tag;
     public MLog(String tag){
         if (tag != null) {
