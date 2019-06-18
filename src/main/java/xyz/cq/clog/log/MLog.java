@@ -8,18 +8,19 @@ package xyz.cq.clog.log;
  * modifyNote:
  */
 public class MLog extends BaseLog {
-    public static boolean isLog=false;
     private String tag;
-    public MLog(String tag){
+
+    public MLog(String tag) {
         if (tag != null) {
             this.tag = tag;
         } else {
             this.tag = "DEFAULT";
         }
     }
-    
+
     /**
      * CQLOG/DEFULAT
+     *
      * @param msg 打印信息
      */
     public int i(String msg) {
@@ -28,7 +29,8 @@ public class MLog extends BaseLog {
 
     /**
      * CQLOG/DEFULAT
-     * @param msg 打印信息
+     *
+     * @param msg       打印信息
      * @param throwable 异常
      */
     public int i(String msg, Throwable throwable) {
@@ -37,6 +39,7 @@ public class MLog extends BaseLog {
 
     /**
      * CQLOG/DEFULAT
+     *
      * @param cls 打印所在类
      * @param msg 打印信息
      */
@@ -88,6 +91,7 @@ public class MLog extends BaseLog {
 
     /**
      * CQLOG/DEFULAT
+     *
      * @param cls 打印所在类
      * @param msg 打印信息
      */
@@ -97,8 +101,9 @@ public class MLog extends BaseLog {
 
     /**
      * CQLOG/DEFULAT
+     *
      * @param cls 打印所在类
-     * @param t 错误信息
+     * @param t   错误信息
      */
     public int e(Class cls, Throwable t) {
         return e(tag, getCodeLocation(cls.getName()), t);
@@ -112,6 +117,7 @@ public class MLog extends BaseLog {
     }
 
     /**
+     *
      */
     public int e(Throwable t) {
         return e(tag, "", t);
@@ -148,43 +154,20 @@ public class MLog extends BaseLog {
         return e(this.tag, msg + getCodeLocation(cls.getName()));
     }
 
-
-    /**
-     * 获取行数信息
-     * @param tag 类名
-     * @return 行数信息
-     */
-    private String getCodeLocation(String tag){
-        StackTraceElement targetStack = getTargetStack(tag);
-        try {
-            return "(" + targetStack.getFileName() + ":" + targetStack.getLineNumber() + ")";
-        } catch (NullPointerException e) {
-            return tag;
-        }
-
+    public void eFile(String msg, Throwable t) {
+        eFile(tag, msg, t);
     }
 
-    // 获取最后调用我们log的StackTraceElement
-    private StackTraceElement getTargetStack(String tag){
-        // 用于存储 目标类 中所有调用的方法
-        for (StackTraceElement element:Thread.currentThread().getStackTrace()) {
-
-            // 只获取目标类中的 element
-            if (element.getClassName().contains(tag)) {
-                return element;
-            }
-        }
-        // 获取不到返回 null
-        return null;
+    public void eFile(String msg) {
+        eFile(tag, msg);
     }
 
-    @Override
-    boolean isLog() {
-        return isLog;
+    public void iFile(String msg, Throwable t) {
+        iFile(tag, msg, t);
     }
 
-    @Override
-    String baseTag() {
-        return BASE_TAG;
+    public void iFile(String msg) {
+        iFile(tag, msg);
     }
+
 }

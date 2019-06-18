@@ -1,12 +1,13 @@
 apply plugin: 'com.android.library'
-
+def versionCode1=110
+def versionName1="1.1.0"
 android {
     compileSdkVersion 28
     defaultConfig {
         targetSdkVersion 28
         minSdkVersion 14
-        versionCode 1
-        versionName "1.0"
+        versionCode versionCode1
+        versionName versionName1
     }
 
     buildTypes {
@@ -22,18 +23,18 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
 //gradlew clean build bintrayUpload -PbintrayUser=chengqian -PbintrayKey=fa90e8a7d75531eb30e090873c7a2ef982060421 -PdryRun=false
-//apply plugin: 'com.novoda.bintray-release'//添加
-////项目主页
-//def siteUrl = 'https://gitlab.com/chengqian/clog.git'
-//publish{
-//    repoName = 'chengqian'//远程仓库名字,不指明，默认是上传到maven
-//    userOrg = 'chengqian'//bintray.com的用户名
-//    groupId = 'xyz.cq.base'//jcenter上的路径
-//    artifactId = 'clog'//项目名称
-//    publishVersion = '1.0.12'//版本号
-//    desc = '程前Log和ToastSDK'//描述，不重要
-//    website = siteUrl//项目主页
-//}
-//tasks.withType(Javadoc).all {
-//    enabled = false
-//}
+apply plugin: 'com.novoda.bintray-release'//添加
+//项目主页
+def siteUrl = 'https://gitlab.com/chengqian/clog.git'
+publish{
+    repoName = 'chengqian'//远程仓库名字,不指明，默认是上传到maven
+    userOrg = 'chengqian'//bintray.com的用户名
+    groupId = 'xyz.cq.base'//jcenter上的路径
+    artifactId = 'clog'//项目名称
+    publishVersion = versionName1//版本号
+    desc = '程前Log和ToastSDK'//描述，不重要
+    website = siteUrl//项目主页
+}
+tasks.withType(Javadoc).all {
+    enabled = false
+}
