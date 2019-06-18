@@ -28,16 +28,22 @@ abstract class BaseLog implements ILog {
     abstract boolean isLog();
 
     abstract String baseTag();
-    BaseLog(){
-        logThread.start();
+
+    BaseLog() {
+        if (!isStart) {
+            logThread.start();
+            isStart = true;
+        }
     }
-    private static boolean isrun=false;
+
+    private static boolean isrun = false;
+    private static boolean isStart = false;
     private static LoggerThreadFactory loggerThreadFactory = new LoggerThreadFactory();
     private static Thread logThread = loggerThreadFactory.newThread(new Runnable() {
         @Override
         public void run() {
-            if (!logList.isEmpty()&& !isrun) {
-                isrun=true;
+            if (!logList.isEmpty() && !isrun) {
+                isrun = true;
                 try {
                     File file = new File(logFilePath);
                     RandomAccessFile raf = new RandomAccessFile(file, "rwd");
@@ -45,7 +51,7 @@ abstract class BaseLog implements ILog {
                     raf.write(logList.get(0).getBytes());
                     logList.remove(logList.get(0));
                     raf.close();
-                    isrun=false;
+                    isrun = false;
                     logThread.run();
                 } catch (Exception ignored) {
                 }
@@ -74,80 +80,88 @@ abstract class BaseLog implements ILog {
     public int i(String tag, String msg) {
         if (isLog()) {
             return android.util.Log.i(baseTag() + "/" + tag, msg);
-        } else {
-            writeTxtToFile("I/" + baseTag() + "/" + tag + ": " + msg);
-            return dealtReturn;
         }
+//        if(isFileLog()){
+//            writeTxtToFile("I/" + baseTag() + "/" + tag + ": " + msg);
+//        }
+        return dealtReturn;
     }
 
     @Override
     public int i(String tag, String msg, Throwable t) {
         if (isLog()) {
             return android.util.Log.i(baseTag() + "/" + tag, msg, t);
-        } else {
-            writeTxtToFile("I/" + baseTag() + "/" + tag + ": " + msg + "\r\n" + t.getCause() + "\r\n" + Arrays.toString(t.getStackTrace()));
-            return dealtReturn;
         }
+//        if(isFileLog()){
+//            writeTxtToFile("I/" + baseTag() + "/" + tag + ": " + msg + "\r\n" + t.getCause() + "\r\n" + Arrays.toString(t.getStackTrace()));
+//        }
+        return dealtReturn;
     }
 
     @Override
     public int d(String tag, String msg) {
         if (isLog()) {
             return android.util.Log.d(baseTag() + "/" + tag, msg);
-        } else {
-            writeTxtToFile("D/" + baseTag() + "/" + tag + ": " + msg);
-            return dealtReturn;
         }
+//        if(isFileLog()){
+//            writeTxtToFile("D/" + baseTag() + "/" + tag + ": " + msg);
+//        }
+        return dealtReturn;
     }
 
     @Override
     public int d(String tag, String msg, Throwable t) {
         if (isLog()) {
             return android.util.Log.d(baseTag() + "/" + tag, msg, t);
-        } else {
-            writeTxtToFile("D/" + baseTag() + "/" + tag + ": " + msg + "\r\n" + t.getCause() + "\r\n" + Arrays.toString(t.getStackTrace()));
-            return dealtReturn;
         }
+//        if(isFileLog()){
+//            writeTxtToFile("D/" + baseTag() + "/" + tag + ": " + msg + "\r\n" + t.getCause() + "\r\n" + Arrays.toString(t.getStackTrace()));
+//        }
+        return dealtReturn;
     }
 
     @Override
     public int e(String tag, String msg) {
         if (isLog()) {
             return android.util.Log.e(baseTag() + "/" + tag, msg);
-        } else {
-            writeTxtToFile("E/" + baseTag() + "/" + tag + ": " + msg);
-            return dealtReturn;
         }
+//        if(isFileLog()){
+//            writeTxtToFile("E/" + baseTag() + "/" + tag + ": " + msg);
+//        }
+        return dealtReturn;
     }
 
     @Override
     public int e(String tag, String msg, Throwable t) {
         if (isLog()) {
             return android.util.Log.e(baseTag() + "/" + tag, msg, t);
-        } else {
-            writeTxtToFile("E/" + baseTag() + "/" + tag + ": " + msg + "\r\n" + t.getCause() + "\r\n" + Arrays.toString(t.getStackTrace()));
-            return dealtReturn;
         }
+//        if(isFileLog()){
+//            writeTxtToFile("E/" + baseTag() + "/" + tag + ": " + msg + "\r\n" + t.getCause() + "\r\n" + Arrays.toString(t.getStackTrace()));
+//        }
+        return dealtReturn;
     }
 
     @Override
     public int w(String tag, String msg) {
         if (isLog()) {
             return android.util.Log.w(baseTag() + "/" + tag, msg);
-        } else {
-            writeTxtToFile("W/" + baseTag() + "/" + tag + ": " + msg);
-            return dealtReturn;
         }
+//        if(isFileLog()){
+//            writeTxtToFile("W/" + baseTag() + "/" + tag + ": " + msg);
+//        }
+        return dealtReturn;
     }
 
     @Override
     public int w(String tag, String msg, Throwable t) {
         if (isLog()) {
             return android.util.Log.w(baseTag() + "/" + tag, msg, t);
-        } else {
-            writeTxtToFile("W/" + baseTag() + "/" + tag + ": " + msg + "\r\n" + t.getCause() + "\r\n" + Arrays.toString(t.getStackTrace()));
-            return dealtReturn;
         }
+//        if(isFileLog()){
+//            writeTxtToFile("W/" + baseTag() + "/" + tag + ": " + msg + "\r\n" + t.getCause() + "\r\n" + Arrays.toString(t.getStackTrace()));
+//        }
+        return dealtReturn;
     }
 
     /**
