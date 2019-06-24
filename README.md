@@ -58,6 +58,7 @@ log打印管理，log打印到文件。Toast简化，基础对话框。
              }
          }).start();
 ```
+![loadingDialog](https://github.com/ChengQian505/CLog/img/loadingDialog.png)
 #### CommonDialog
 ```
     new CommonDialog(MainActivity.this)
@@ -77,6 +78,7 @@ log打印管理，log打印到文件。Toast简化，基础对话框。
                     }
                 }).show();
 ```
+![commonDilog](https://github.com/ChengQian505/CLog/img/commonDilog.png)
 #### BottomDialog
 ```
     new BottomDialog(MainActivity.this)
@@ -88,3 +90,4 @@ log打印管理，log打印到文件。Toast简化，基础对话框。
                     }
                 }).show();
 ```
+![bottomDialog](https://github.com/ChengQian505/CLog/img/bottomDialog.png)
