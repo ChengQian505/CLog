@@ -15,10 +15,10 @@ import xyz.cq.clog.R;
  * content:
  * modifyNote:
  */
-public class BottomOptionDialogBase extends BaseCommonDialog {
+public class BottomDialog extends BaseDialog {
     private Context context;
 
-    public BottomOptionDialogBase(Context context) {
+    public BottomDialog(Context context) {
         super(context);
         this.context = context;
         setContentView(R.layout.dialog_bottom_option);
@@ -32,14 +32,25 @@ public class BottomOptionDialogBase extends BaseCommonDialog {
         });
     }
 
-    public BottomOptionDialogBase setOnClickListener(View.OnClickListener... onClicks) {
-        for (int i = 0; i < onClicks.length; i++) {
-            ((ViewGroup) findViewById(R.id.dialog_bottom_base)).getChildAt(i).setOnClickListener(onClicks[i]);
+    public interface OnClickListener {
+        void onClick(View positionV,int position);
+    }
+
+    public BottomDialog setOnClickListener(final OnClickListener onClick) {
+        ViewGroup bottom=findViewById(R.id.dialog_bottom_base);
+        for (int i = 0; i < bottom.getChildCount(); i++) {
+            final int finalI = i;
+            bottom.getChildAt(i).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClick.onClick(v, finalI);
+                }
+            });
         }
         return this;
     }
 
-    public BottomOptionDialogBase setText(String... options) {
+    public BottomDialog setText(String... options) {
         if (options.length != 0) {
             ViewGroup dialogBottomBase = findViewById(R.id.dialog_bottom_base);
             for (int i = 0; i < options.length; i++) {

@@ -1,12 +1,16 @@
 package xyz.cq.clog;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
 import java.util.WeakHashMap;
 
+import me.weyye.hipermission.HiPermission;
+import me.weyye.hipermission.PermissionCallback;
 import xyz.cq.clog.log.MLog;
 import xyz.cq.clog.utils.Util;
 
@@ -18,7 +22,6 @@ import xyz.cq.clog.utils.Util;
  */
 public final class CLog {
 
-    private static final CLog INSTANCE=new CLog();
 
     private static WeakHashMap<String, MLog> tags = new WeakHashMap<>();
 
@@ -35,19 +38,55 @@ public final class CLog {
         }
     }
 
-    public static CLog baseLog(String baseLog) {
+    public static void init(String baseLog,boolean isLog){
         MLog.BASE_TAG = baseLog;
-        return INSTANCE;
-    }
-
-    public static CLog logFile(String logFilePath) {
-        MLog.logFilePath = logFilePath;
-        return INSTANCE;
-    }
-
-    public CLog isLog(boolean isLog) {
         MLog.isLog = isLog;
-        return this;
+        log().i("CLog:version is " + BuildConfig.VERSION_NAME + ",TAG is " + baseLog);
+    }
+
+    public static void logFile(final String logFilePath) {
+        if (!logFilePath.equals("")){
+            MLog.logFilePath=logFilePath;
+            HiPermission.create(Util.getApp())
+                    .checkSinglePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, new PermissionCallback() {
+                        @Override
+                        public void onClose() {
+
+                        }
+
+                        @Override
+                        public void onFinish() {
+
+                        }
+
+                        @Override
+                        public void onDeny(String permission, int position) {
+                            log().i("logFile fail,permissiong onDeny");
+                        }
+
+                        @Override
+                        public void onGuarantee(String permission, int position) {
+                            File logFile = new File(logFilePath);
+                            if (logFile.exists()) {
+                                logFile.delete();
+                            }
+                            try {
+                                File logFileDirectory = new File(logFilePath.substring(0, logFilePath.lastIndexOf("/")));
+                                if (!logFileDirectory.isDirectory()) {
+                                    logFileDirectory.mkdirs();
+                                }
+                                File file = new File(logFilePath);
+                                file.createNewFile();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            log().iFile("CLog:version is " + BuildConfig.VERSION_NAME + ",TAG is " + MLog.BASE_TAG+",logPath is " + logFilePath);
+                        }
+
+                    });
+        }else{
+
+        }
     }
 
     public static String packageName() {
@@ -61,6 +100,7 @@ public final class CLog {
 
     /**
      * 底部短时间Toast
+     *
      * @param text 吐司内容
      */
     @SuppressLint("ShowToast")
@@ -71,11 +111,12 @@ public final class CLog {
             toast1.setText(text);
         }
         toast1.show();
-        CLog.log("TOAST").i("SHORT-"+text);
+        CLog.log("TOAST").i("SHORT-" + text);
     }
 
     /**
      * 底部长时间Toast
+     *
      * @param text 吐司内容
      */
     @SuppressLint("ShowToast")
@@ -86,18 +127,18 @@ public final class CLog {
             toast2.setText(text);
         }
         toast2.show();
-        CLog.log("TOAST").i("LONG-"+text);
+        CLog.log("TOAST").i("LONG-" + text);
     }
 
 
     public static void show1(String text) {
-        Toast.makeText(Util.getApp(),text,Toast.LENGTH_SHORT).show();
-        CLog.log("TOAST").i("SHORT-"+text);
+        Toast.makeText(Util.getApp(), text, Toast.LENGTH_SHORT).show();
+        CLog.log("TOAST").i("SHORT-" + text);
     }
 
     public static void showLong1(String text) {
-        Toast.makeText(Util.getApp(),text,Toast.LENGTH_LONG).show();
-        CLog.log("TOAST").i("LONG-"+text);
+        Toast.makeText(Util.getApp(), text, Toast.LENGTH_LONG).show();
+        CLog.log("TOAST").i("LONG-" + text);
     }
 
 }

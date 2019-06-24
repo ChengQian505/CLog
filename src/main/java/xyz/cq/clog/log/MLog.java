@@ -14,7 +14,7 @@ public class MLog extends BaseLog {
         if (tag != null) {
             this.tag = tag;
         } else {
-            this.tag = "DEFAULT";
+            this.tag = "";
         }
     }
 

@@ -12,7 +12,7 @@ import java.text.MessageFormat;
 import xyz.cq.clog.R;
 
 
-public class TipDialog extends BaseCommonDialog {
+public class CommonDialog extends BaseDialog {
     private final RelativeLayout progress_content;
     private final ProgressBar progress_pro;
     private final TextView progress_text;
@@ -25,7 +25,7 @@ public class TipDialog extends BaseCommonDialog {
 
     private View verticalLine;
 
-    public TipDialog(Context paramContext) {
+    public CommonDialog(Context paramContext) {
         super(paramContext);
         setContentView(R.layout.dialog_tip);
         this.txtTitle = findViewById(R.id.txt_title);
@@ -42,11 +42,11 @@ public class TipDialog extends BaseCommonDialog {
         setCancelable(false);
     }
 
-    public static TipDialog newInstance(Context paramContext) {
-        return new TipDialog(paramContext);
+    public static CommonDialog newInstance(Context paramContext) {
+        return new CommonDialog(paramContext);
     }
 
-    public TipDialog setContentGravity(int gravity){
+    public CommonDialog setContentGravity(int gravity){
         txtContent.setGravity(gravity);
         return this;
     }
@@ -72,12 +72,12 @@ public class TipDialog extends BaseCommonDialog {
 
     }
 
-    public TipDialog setContent(String paramString) {
+    public CommonDialog setContent(String paramString) {
         this.txtContent.setText(paramString);
         return this;
     }
 
-    public TipDialog setLeftBtnText(String paramString) {
+    public CommonDialog setLeftBtnText(String paramString) {
         this.btnCancel.setText(paramString);
         if (paramString == null || paramString.isEmpty()) {
             this.btnCancel.setVisibility(View.GONE);
@@ -86,17 +86,17 @@ public class TipDialog extends BaseCommonDialog {
         return this;
     }
 
-    public TipDialog setOnBtnClickListener(OnDialogBtnClickListener paramOnDialogBtnClickListener) {
+    public CommonDialog setOnBtnClickListener(OnDialogBtnClickListener paramOnDialogBtnClickListener) {
         this.mOnClickListener = paramOnDialogBtnClickListener;
         return this;
     }
 
-    public TipDialog setRightBtnText(String paramString) {
+    public CommonDialog setRightBtnText(String paramString) {
         this.btnConfirm.setText(paramString);
         return this;
     }
 
-    public TipDialog setTitle(String paramString) {
+    public CommonDialog setTitle(String paramString) {
         this.txtTitle.setText(paramString);
         return this;
     }
@@ -115,8 +115,8 @@ public class TipDialog extends BaseCommonDialog {
 
     public interface OnDialogBtnClickListener {
 
-         void onLeftBtnClicked(TipDialog paramTipDialog);
+         void onLeftBtnClicked(CommonDialog paramTipDialog);
 
-         void onRightBtnClicked(TipDialog paramTipDialog);
+         void onRightBtnClicked(CommonDialog paramTipDialog);
     }
 }

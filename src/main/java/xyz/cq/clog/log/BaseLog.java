@@ -36,9 +36,7 @@ abstract class BaseLog implements ILog {
                         logFileDirectory.mkdirs();
                     }
                     File file = new File(logFilePath);
-                    if (!file.isFile()) {
-                        file.createNewFile();
-                    }
+                    file.createNewFile();
                     RandomAccessFile raf = new RandomAccessFile(file, "rwd");
                     raf.seek(file.length());
                     raf.write(logList.get(0).getBytes());
@@ -53,7 +51,7 @@ abstract class BaseLog implements ILog {
         }
     });
 
-    private static ArrayList<String> logList = new ArrayList<>();
+    private final static ArrayList<String> logList = new ArrayList<>();
 
     private class LoggerThreadFactory implements ThreadFactory {
 
@@ -137,24 +135,32 @@ abstract class BaseLog implements ILog {
     void eFile(String tag, String msg, Throwable t) {
         if (!logFilePath.equals("")) {
             writeTxtToFile("ERROR/" + BASE_TAG + "/" + tag + ": " + msg + "\r\n" + t.getCause() + "\r\n" + Arrays.toString(t.getStackTrace()));
+        }else{
+            i(tag,"logFile is empty");
         }
     }
 
     void eFile(String tag, String msg) {
         if (!logFilePath.equals("")) {
             writeTxtToFile("ERROR/" + BASE_TAG + "/" + tag + ": " + msg);
+        }else{
+            i(tag,"logFile is empty");
         }
     }
 
     void iFile(String tag, String msg, Throwable t) {
         if (!logFilePath.equals("")) {
             writeTxtToFile("INFO/" + BASE_TAG + "/" + tag + ": " + msg + "\r\n" + t.getCause() + "\r\n" + Arrays.toString(t.getStackTrace()));
+        }else{
+            i(tag,"logFile is empty");
         }
     }
 
     void iFile(String tag, String msg) {
         if (!logFilePath.equals("")) {
             writeTxtToFile("INFO/" + BASE_TAG + "/" + tag + ": " + msg);
+        }else{
+            i(tag,"logFile is empty");
         }
     }
 
@@ -164,6 +170,7 @@ abstract class BaseLog implements ILog {
     private void writeTxtToFile(String strcontent) {
         if (!"".equals(logFilePath)) {
             logList.add(getTime() + " " + CLog.packageName() + " " + strcontent + "\r\n");
+            i("File", strcontent);
             logThread.run();
         }
     }

@@ -11,10 +11,10 @@ import xyz.cq.clog.R;
  * content:
  * modifyNote:
  */
-public class HttpDialog extends BaseCommonDialog {
+public class LoadingDialog extends BaseDialog {
     private View view;
 
-    public HttpDialog(Context context, View view) {
+    public LoadingDialog(Context context, View view) {
         super(context, R.style.common_dialog);
         this.view = view;
         setContentView(R.layout.layout_http);
@@ -22,7 +22,7 @@ public class HttpDialog extends BaseCommonDialog {
         setCancelable(false);
     }
 
-    public HttpDialog(Context context) {
+    public LoadingDialog(Context context) {
         this(context, null);
     }
 

@@ -9,16 +9,16 @@ import xyz.cq.clog.R;
 /**
  * @author Raytine
  */
-abstract class BaseCommonDialog extends Dialog implements View.OnClickListener {
+abstract class BaseDialog extends Dialog implements View.OnClickListener {
 
 
-    BaseCommonDialog(Context paramContext) {
+    BaseDialog(Context paramContext) {
         super(paramContext, R.style.common_dialog);
         initDialogAttrs(paramContext);
     }
 
 
-    public BaseCommonDialog(Context paramContext, int paramInt) {
+    public BaseDialog(Context paramContext, int paramInt) {
         super(paramContext, paramInt);
         initDialogAttrs(paramContext);
     }
