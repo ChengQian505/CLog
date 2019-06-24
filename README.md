@@ -1,54 +1,90 @@
 # CLog
-用来log打印管理，Toast简化,log打印到文件，loading对话框
-### 引入
+log打印管理，log打印到文件。Toast简化，基础对话框。
+## 引入
 ```
-  compile 'xyz.cq.base:clog:1.1.0'
+  implementation 'xyz.cq.base:clog:1.1.4'
 ```
-### 使用
-#### 配置是否打印log
+## 使用
+### log打印
+#### 初始化
 ```
-  //true为打印log，默认为true
-  CLog.isLog(BulidConfig.DEBUG);
+  CLog.init("Ctools", BuildConfig.DEBUG);
 ```
-#### 配置一级TAG
+#### 设置logFile
 ```
-  //默认为CLog为一级TAG
-  CLog.baseLog("tag1");
+  CLog.logFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Clog");//会请求文件管理权限,拒绝权限将不会打印到文件
 ```
 #### 打印log
 ```
-  //CLog.log()可以传入二级log，默认为CLog
   CLog.log("tag2").i("msg");
-```
-#### 设置打印的文件
-```
-  CLog.logFile(filePath);
 ```
 #### 打印到文件
 ```
-  //不设置logFile不会打印到文件
-  //沿用上的面TAG
-  //支持两个等级info error
-  CLog.log().iFile("msg");
+  CLog.log().iFile("msg");//共用上面的TAG
 ```
-#### Toast<br/>
-解决Toast多次触发问题
+### Toast
+#### Toast重用
+小米或者其他手机会出现弹出不正常情况可以使用正常Toast
 ```
-  //Toast.LENGTH_SHORT
-  CLog.show("msg");
-  //Toast.LENGTH_LONG
-  CLog.showLong("msg");
+  CLog.show("msg");//Toast.LENGTH_SHORT
+  CLog.showLong("msg");//Toast.LENGTH_LONG
 ```
-正常Toast
+#### 正常Toast
 ```
   //Toast.LENGTH_SHORT
   CLog.show1("msg");
   //Toast.LENGTH_LONG
   CLog.showLong1("msg");
 ```
-#### loading对话框
+### 对话框
+#### LoadingDialog
 ```
-  HttpDialog httpdialog=new HttpDialog(context);
-  httpdialog.show();//展示
-  httpdialog.dismiss();//关闭
+ final LoadingDialog loadingDialog = new LoadingDialog(MainActivity.this);
+         loadingDialog.show();
+         new Thread(new Runnable() {
+             @Override
+             public void run() {
+                 try {
+                     Thread.sleep(2000);
+                     MainActivity.this.runOnUiThread(new Runnable() {
+                         @Override
+                         public void run() {
+                             loadingDialog.dismiss();
+                         }
+                     });
+                 } catch (InterruptedException e) {
+                     e.printStackTrace();
+                 }
+             }
+         }).start();
+```
+#### CommonDialog
+```
+    new CommonDialog(MainActivity.this)
+                .setTitle("标题")
+                .setContent("内容")
+                .setLeftBtnText("左边按钮")
+                .setRightBtnText("右边按钮")
+                .setOnBtnClickListener(new CommonDialog.OnDialogBtnClickListener() {
+                    @Override
+                    public void onLeftBtnClicked(CommonDialog paramTipDialog) {
+                        paramTipDialog.dismiss();
+                    }
+
+                    @Override
+                    public void onRightBtnClicked(CommonDialog paramTipDialog) {
+                        paramTipDialog.dismiss();
+                    }
+                }).show();
+```
+#### BottomDialog
+```
+    new BottomDialog(MainActivity.this)
+                .setText("第一个", "第二个", "第三个")
+                .setOnClickListener(new BottomDialog.OnClickListener() {
+                    @Override
+                    public void onClick(View positionV, int position) {
+                        CLog.show("点击了第" + (position + 1) + "个按钮");
+                    }
+                }).show();
 ```
